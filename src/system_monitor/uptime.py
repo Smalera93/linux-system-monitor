@@ -13,7 +13,10 @@ def seconds_to_hms(total_seconds):
     seconds = remaining_seconds % 60
     return (hours, minutes, seconds)
 
-total_seconds = read_uptime_seconds()
-hours, minutes, seconds = seconds_to_hms(total_seconds)
-print('System uptime: %d hours, %d minutes, %d seconds' % (hours, minutes, seconds))
-
+try:
+    total_seconds = read_uptime_seconds()
+except FileNotFoundError:
+    print ('Unable to read system uptime')
+else:
+    hours, minutes, seconds = seconds_to_hms(total_seconds)
+    print('System uptime: %d hours, %d minutes, %d seconds' % (hours, minutes, seconds))
