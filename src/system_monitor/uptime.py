@@ -37,16 +37,19 @@ def format_uptime(hours, minutes, seconds):
         last_unit = uptime_parts[-1]
         return '%s and %s' % (formatted_initial_units, last_unit)
 
+def get_uptime_report():
+    total_seconds = read_uptime_seconds()
+    hours, minutes, seconds = seconds_to_hms(total_seconds)
+    formatted_uptime = format_uptime(hours, minutes, seconds)
+    return formatted_uptime
 
 def main():
     try:
-        total_seconds = read_uptime_seconds()
+        uptime_report = get_uptime_report()
     except FileNotFoundError:
         print ('Unable to read system uptime')
     else:
-        hours, minutes, seconds = seconds_to_hms(total_seconds)
-        formatted_uptime = format_uptime(hours, minutes, seconds)
-        print('System uptime: %s' % (formatted_uptime))
+        print('System uptime: %s' % (uptime_report))
 
 if __name__== "__main__":
     main()

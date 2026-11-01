@@ -30,23 +30,34 @@ def calculate_memory_percent(total_kib, used_kib):
     usage_percent = used_kib / total_kib * 100
     return usage_percent
 
+def format_memory(total_gib, available_gib, used_gib, usage_percent):
+    return [
+        f'Total: {total_gib:.2f} GiB',
+        f'Available: {available_gib:.2f} GiB',
+        f'Used: {used_gib:.2f} GiB',
+        f'Usage: {usage_percent:.1f}%'
+            ]
+
+def get_memory_report():
+    total_kib, available_kib = read_memory()
+    used_kib = calculate_memory_usage(total_kib, available_kib)
+    total_gib = kib_to_gib(total_kib)
+    available_gib = kib_to_gib(available_kib)
+    used_gib = kib_to_gib(used_kib)
+    percent = calculate_memory_percent(total_kib, used_kib)
+    formatted_memory_list = format_memory(total_gib, available_gib, used_gib, percent)
+    return formatted_memory_list
+
 def main():
     try:
-        total_kib, available_kib = read_memory()
+        memory_report = get_memory_report()
     except FileNotFoundError:
         print ('Unable to read system memory')
     except ValueError:
         print ('Required memory data was invalid/missing')
     else:
-        used_kib = calculate_memory_usage(total_kib, available_kib)
-        total_gib = kib_to_gib(total_kib)
-        available_gib = kib_to_gib(available_kib)
-        used_gib = kib_to_gib(used_kib)
-        print('Total: %.2f GiB' % (total_gib))
-        print('Available: %.2f GiB' % (available_gib))
-        print('Used: %.2f GiB' % (used_gib))
-        percent = calculate_memory_percent(total_kib, used_kib)
-        print('Percent usage: %.1f%%' % (percent))
+        for line in memory_report:
+            print (line)
 
 if __name__== "__main__":
     main()
