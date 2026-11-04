@@ -1,4 +1,5 @@
 import unittest
+from system_monitor.formatting import LABEL_WIDTH
 from system_monitor.memory import (
     calculate_memory_usage,
     kib_to_gib,
@@ -45,10 +46,34 @@ class TestMemory(unittest.TestCase):
         self.assertAlmostEqual(kib_to_gib (1536000), 1.4648, places=4)
 
     def test_format_memory_normal_values(self):
-        self.assertEqual(format_memory(3.272, 1.111, 2.161, 66.1), ['Total: 3.27 GiB', 'Available: 1.11 GiB', 'Used: 2.16 GiB', 'Usage: 66.1%'])
+        expected = [
+            f"{'Total:':<{LABEL_WIDTH}} 3.27 GiB",
+            f"{'Available:':<{LABEL_WIDTH}} 1.11 GiB",
+            f"{'Used:':<{LABEL_WIDTH}} 2.16 GiB",
+            f"{'Usage:':<{LABEL_WIDTH}} 66.1%"
+        ]
+        self.assertEqual(format_memory(3.272, 1.111, 2.161, 66.1), expected)
     def test_format_memory_zero_values(self):
-        self.assertEqual(format_memory(0.0, 0.0, 0.0, 0.0), ['Total: 0.00 GiB', 'Available: 0.00 GiB', 'Used: 0.00 GiB', 'Usage: 0.0%'])
+        expected = [
+            f"{'Total:':<{LABEL_WIDTH}} 0.00 GiB",
+            f"{'Available:':<{LABEL_WIDTH}} 0.00 GiB",
+            f"{'Used:':<{LABEL_WIDTH}} 0.00 GiB",
+            f"{'Usage:':<{LABEL_WIDTH}} 0.0%"
+        ]
+        self.assertEqual(format_memory(0.0, 0.0, 0.0, 0.0), expected)
     def test_format_memory_random_rounding_values(self):
-        self.assertEqual(format_memory(3.274, 1.116, 2.158, 65.55), ['Total: 3.27 GiB', 'Available: 1.12 GiB', 'Used: 2.16 GiB', 'Usage: 65.5%'])
+        expected = [
+            f"{'Total:':<{LABEL_WIDTH}} 3.27 GiB",
+            f"{'Available:':<{LABEL_WIDTH}} 1.12 GiB",
+            f"{'Used:':<{LABEL_WIDTH}} 2.16 GiB",
+            f"{'Usage:':<{LABEL_WIDTH}} 65.5%"
+        ]
+        self.assertEqual(format_memory(3.274, 1.116, 2.158, 65.55), expected)
     def test_format_memory_whole_numbers_values(self):
-        self.assertEqual(format_memory(4.0, 2.0, 2.0, 50.0), ['Total: 4.00 GiB', 'Available: 2.00 GiB', 'Used: 2.00 GiB', 'Usage: 50.0%'])
+        expected = [
+            f"{'Total:':<{LABEL_WIDTH}} 4.00 GiB",
+            f"{'Available:':<{LABEL_WIDTH}} 2.00 GiB",
+            f"{'Used:':<{LABEL_WIDTH}} 2.00 GiB",
+            f"{'Usage:':<{LABEL_WIDTH}} 50.0%"
+        ]
+        self.assertEqual(format_memory(4.0, 2.0, 2.0, 50.0), expected)

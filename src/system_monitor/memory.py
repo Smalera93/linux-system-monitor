@@ -1,3 +1,5 @@
+from system_monitor.formatting import LABEL_WIDTH
+
 def read_memory():
     total_kib = None
     available_kib = None
@@ -32,10 +34,10 @@ def calculate_memory_percent(total_kib, used_kib):
 
 def format_memory(total_gib, available_gib, used_gib, usage_percent):
     return [
-        f'Total: {total_gib:.2f} GiB',
-        f'Available: {available_gib:.2f} GiB',
-        f'Used: {used_gib:.2f} GiB',
-        f'Usage: {usage_percent:.1f}%'
+        f"{'Total:':<{LABEL_WIDTH}} {total_gib:.2f} GiB",
+        f"{'Available:':<{LABEL_WIDTH}} {available_gib:.2f} GiB",
+        f"{'Used:':<{LABEL_WIDTH}} {used_gib:.2f} GiB",
+        f"{'Usage:':<{LABEL_WIDTH}} {usage_percent:.1f}%"
             ]
 
 def get_memory_report():
