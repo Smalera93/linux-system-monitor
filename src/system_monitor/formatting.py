@@ -6,6 +6,8 @@ LABELS = (
     "Usage:",
     "Received:",
     "Sent:",
+    "Download:",
+    "Upload:",
 )
 
 LABEL_WIDTH = max(len(label) for label in LABELS)
