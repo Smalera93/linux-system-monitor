@@ -2,6 +2,7 @@ from system_monitor.memory import get_memory_report
 from system_monitor.uptime import get_uptime_report
 from system_monitor.disk import get_disk_report
 from system_monitor.cpu import get_cpu_report
+from system_monitor.network import get_network_report
 
 def main():
     disk_path = "/"
@@ -51,6 +52,18 @@ def main():
         print ("Invalid CPU sample interval")
     else:
         print(f" {cpu_report}")
+
+    print()
+    try:
+        print("Network")
+        network_report = get_network_report()
+    except FileNotFoundError:
+        print(" Unable to read network values")
+    except ValueError:
+        print(" Invalid network values")
+    else:
+        for line in network_report:
+            print(f" {line}")
 
 if __name__== "__main__":
     main()
