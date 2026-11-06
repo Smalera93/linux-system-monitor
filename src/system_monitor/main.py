@@ -1,6 +1,7 @@
 from system_monitor.memory import get_memory_report
 from system_monitor.uptime import get_uptime_report
 from system_monitor.disk import get_disk_report
+from system_monitor.cpu import get_cpu_report
 
 def main():
     disk_path = "/"
@@ -39,6 +40,17 @@ def main():
     else:
         for line in disk_report:
             print (f" {line}")
+
+    print()
+    try:
+        print ("CPU")
+        cpu_report = get_cpu_report()
+    except FileNotFoundError:
+        print (" Unable to read CPU values")
+    except ValueError:
+        print ("Invalid CPU sample interval")
+    else:
+        print(f" {cpu_report}")
 
 if __name__== "__main__":
     main()
